@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MouseController : MonoBehaviour {
 
-	public GameObject particle;
+	
+	public float ballHitForce;
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +21,14 @@ public class MouseController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			
 			if (Physics.Raycast(ray, out hit)) {
-                if (hit.rigidbody != null)
-          			Instantiate(particle, hit.point, Quaternion.identity);
-				if (hit.rigidbody.gameObject.name == "Ball")
-					Debug.Log("Hit the ball");
+                if (hit.rigidbody != null) {
+					if (hit.rigidbody.gameObject.name == "Ball"){
+						Debug.Log("Hit the ball");
+						hit.rigidbody.AddForceAtPosition(ray.direction * ballHitForce, hit.point);
+						//hit.rigidbody.AddExplosionForce(ballHitForce,hit.point,1);
+						
+					}
+				}
 			}
         }
 	}
